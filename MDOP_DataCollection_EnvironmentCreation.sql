@@ -57,12 +57,12 @@ BEGIN
     GOTO EndScript;
 END;
 
-IF @CMDB IS NULL
-BEGIN
-    PRINT N'There is no CM database in the ONLINE state on this instance!';
-    PRINT N'Run this only on SQL Servers running CM.';
-    GOTO EndScript;
-END;
+--IF @CMDB IS NULL
+--BEGIN
+--    PRINT N'There is no CM database in the ONLINE state on this instance!';
+--    PRINT N'Run this only on SQL Servers running CM.';
+--    GOTO EndScript;
+--END;
 ELSE
 BEGIN
     -- Get the Default MDF location (from the registry):
@@ -156,15 +156,15 @@ BEGIN
     PRINT N'Owner/Authorization updated to "sa".';
 END;
 
--- Now that the database is created we need to create the objects:
- -- Only create DRS tables if change tracking is enabled for the CM database:
-IF EXISTS (
-SELECT *
-  FROM sys.change_tracking_databases ctd
-       INNER JOIN sys.databases dbs
-          ON ctd.database_id = dbs.database_id
-         AND dbs.name = @CMDB
-)
+---- Now that the database is created we need to create the objects:
+-- -- Only create DRS tables if change tracking is enabled for the CM database:
+--IF EXISTS (
+--SELECT *
+--  FROM sys.change_tracking_databases ctd
+--       INNER JOIN sys.databases dbs
+--          ON ctd.database_id = dbs.database_id
+--         AND dbs.name = @CMDB
+--)
 EXECUTE (N'USE [MDOP_Test];
 CREATE TABLE dbo.DRSCountInfo ( RecID int IDENTITY(1,1) PRIMARY KEY NOT NULL
                                ,BatchId int NOT NULL
